@@ -40,10 +40,10 @@ const Rectangle = ({ shapeProps, onChange, image, stageWidth, stageHeight, handl
             });
           }}
           dragBoundFunc={pos => {
-            let newY = (pos.y > 0 && pos.y < stageHeight - shapeRef.current.attrs.height) ? pos.y : pos.y < 0 ? 0 : stageHeight - shapeRef.current.attrs.height
-            let newX = (pos.x > 0 && pos.x < stageWidth - shapeRef.current.attrs.width) ? pos.x : pos.x < 0 ? 0 : stageWidth - shapeRef.current.attrs.width
-            handleImageX(pos.x)
-            handleImageY(pos.y)
+            let newY = (pos.y >= 0 && pos.y < stageHeight - shapeRef.current.attrs.height) ? pos.y : pos.y < 0 ? 0 : stageHeight - shapeRef.current.attrs.height
+            let newX = (pos.x >= 0 && pos.x < stageWidth - shapeRef.current.attrs.width) ? pos.x : pos.x < 0 ? 0 : stageWidth - shapeRef.current.attrs.width
+            handleImageX(newX)
+            handleImageY(newY)
             handleImageWidth(shapeRef.current.attrs.width)
             handleImageHeight(shapeRef.current.attrs.height)
             return {
@@ -170,8 +170,8 @@ const App = () => {
                 onDragEnd={(e) => {
                 }}
                 dragBoundFunc={pos => {
-                  let newY = (pos.y > 0 && pos.y < stageHeight - 50 * inputRef.current.textArr.length) ? pos.y : pos.y < 0 ? 0 : stageHeight - 50 * inputRef.current.textArr.length
-                  let newX = (pos.x > 0 && pos.x < stageWidth - inputRef.current.textWidth) ? pos.x : pos.x < 0 ? 0 : stageWidth - inputRef.current.textWidth
+                  let newY = (pos.y >= 0 && pos.y < stageHeight - 50 * inputRef.current.textArr.length) ? pos.y : pos.y < 0 ? 0 : stageHeight - 50 * inputRef.current.textArr.length
+                  let newX = (pos.x >= 0 && pos.x < stageWidth - inputRef.current.textWidth) ? pos.x : pos.x < 0 ? 0 : stageWidth - inputRef.current.textWidth
                   handleTextX(newX)
                   handleTextY(newY)
                   return {
@@ -179,6 +179,7 @@ const App = () => {
                     y: newY
                   }
                 }}
+                visible={inputText !== ''}
                 x={textX}
                 y={textY}
                 wrap="word"
