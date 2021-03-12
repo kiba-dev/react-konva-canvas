@@ -177,8 +177,6 @@ const App = () => {
                 draggable
                 fontSize={50}
                 ref={inputRef}
-                onDragEnd={(e) => {
-                }}
                 dragBoundFunc={pos => {
                   let newY = (pos.y >= 0 && pos.y < stageHeight - 50 * inputRef.current.textArr.length) ?
                     pos.y : pos.y < 0 ? 0 : stageHeight - 50 * inputRef.current.textArr.length
@@ -210,7 +208,7 @@ const App = () => {
             <input
               type="file"
               ref={hiddenFileInput}
-              style={{ display: 'none'}}
+              style={{ display: 'none' }}
               onChange={handleChange}
               accept="image/x-png,image/gif,image/jpeg"
             />
