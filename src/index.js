@@ -1,17 +1,27 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { render } from 'react-dom';
-import { Stage, Layer, Text, Image, Transformer } from 'react-konva';
+import React, { useEffect, useState, useRef } from 'react'
+import { render } from 'react-dom'
+import { Stage, Layer, Text, Image, Transformer } from 'react-konva'
 import useImage from 'use-image'
 
-const Rectangle = ({ shapeProps, onChange, image, stageWidth, stageHeight, handleImageX, handleImageY, handleImageWidth, handleImageHeight }) => {
-  const shapeRef = useRef();
-  const trRef = useRef();
+const Rectangle = ({
+  shapeProps,
+  onChange,
+  image,
+  stageWidth,
+  stageHeight,
+  handleImageX,
+  handleImageY,
+  handleImageWidth,
+  handleImageHeight
+}) => {
+  const shapeRef = useRef()
+  const trRef = useRef()
 
   useEffect(() => {
     if (image) {
-      trRef.current.nodes([shapeRef.current]);
+      trRef.current.nodes([shapeRef.current])
     }
-  }, [image]);
+  }, [image])
 
   return (
     <React.Fragment>
@@ -22,15 +32,13 @@ const Rectangle = ({ shapeProps, onChange, image, stageWidth, stageHeight, handl
           ref={shapeRef}
           {...shapeProps}
           draggable
-          onDragEnd={(e) => {
-          }}
-          onTransformEnd={(e) => {
-            const node = shapeRef.current;
-            const scaleX = node.scaleX();
-            const scaleY = node.scaleY();
+          onTransformEnd={e => {
+            const node = shapeRef.current
+            const scaleX = node.scaleX()
+            const scaleY = node.scaleY()
 
-            node.scaleX(1);
-            node.scaleY(1);
+            node.scaleX(1)
+            node.scaleY(1)
             onChange({
               ...shapeProps,
               x: node.x(),
@@ -40,12 +48,14 @@ const Rectangle = ({ shapeProps, onChange, image, stageWidth, stageHeight, handl
             });
           }}
           dragBoundFunc={pos => {
-            let newY = (pos.y >= 0 && pos.y < stageHeight - shapeRef.current.attrs.height) ? pos.y : pos.y < 0 ? 0 : stageHeight - shapeRef.current.attrs.height
-            let newX = (pos.x >= 0 && pos.x < stageWidth - shapeRef.current.attrs.width) ? pos.x : pos.x < 0 ? 0 : stageWidth - shapeRef.current.attrs.width
-            handleImageX(newX)
-            handleImageY(newY)
-            handleImageWidth(shapeRef.current.attrs.width)
-            handleImageHeight(shapeRef.current.attrs.height)
+            let newY = (pos.y >= 0 && pos.y < stageHeight - shapeRef.current.attrs.height) ?
+              pos.y : pos.y < 0 ? 0 : stageHeight - shapeRef.current.attrs.height
+            let newX = (pos.x >= 0 && pos.x < stageWidth - shapeRef.current.attrs.width) ?
+              pos.x : pos.x < 0 ? 0 : stageWidth - shapeRef.current.attrs.width
+            handleImageX(newX.toFixed(2))
+            handleImageY(newY.toFixed(2))
+            handleImageWidth(shapeRef.current.attrs.width.toFixed(2))
+            handleImageHeight(shapeRef.current.attrs.height.toFixed(2))
             return {
               x: newX,
               y: newY
@@ -90,13 +100,13 @@ const App = () => {
   useEffect(() => {
     setStageWidth(document.querySelector('#parent-div').offsetWidth)
     setStageHeight(document.querySelector('#parent-div').offsetHeight)
-    window.addEventListener('resize', (e) => {
+    window.addEventListener('resize', e => {
       setStageWidth(document.querySelector('#parent-div').offsetWidth)
       setStageHeight(document.querySelector('#parent-div').offsetHeight)
     })
   }, [])
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     setInputText(e.target.value)
   }
 
@@ -108,11 +118,11 @@ const App = () => {
     setFileUrl(URL.createObjectURL(e.target.files[0]))
   }
 
-  const handleTextX = (val) => {
+  const handleTextX = val => {
     setTextX(val)
   }
 
-  const handleTextY = (val) => {
+  const handleTextY = val => {
     setTextY(val)
   }
 
@@ -155,10 +165,10 @@ const App = () => {
                 handleImageY={handleImageY}
                 handleImageWidth={handleImageWidth}
                 handleImageHeight={handleImageHeight}
-                onChange={(newAttrs) => {
-                  const rects = rectangles.slice();
-                  rects[0] = newAttrs;
-                  setRectangles(rects);
+                onChange={newAttrs => {
+                  const rects = rectangles.slice()
+                  rects[0] = newAttrs
+                  setRectangles(rects)
                 }}
               />
               <Text
@@ -170,18 +180,18 @@ const App = () => {
                 onDragEnd={(e) => {
                 }}
                 dragBoundFunc={pos => {
-                  let newY = (pos.y >= 0 && pos.y < stageHeight - 50 * inputRef.current.textArr.length) ? pos.y : pos.y < 0 ? 0 : stageHeight - 50 * inputRef.current.textArr.length
-                  let newX = (pos.x >= 0 && pos.x < stageWidth - inputRef.current.textWidth) ? pos.x : pos.x < 0 ? 0 : stageWidth - inputRef.current.textWidth
-                  handleTextX(newX)
-                  handleTextY(newY)
+                  let newY = (pos.y >= 0 && pos.y < stageHeight - 50 * inputRef.current.textArr.length) ?
+                    pos.y : pos.y < 0 ? 0 : stageHeight - 50 * inputRef.current.textArr.length
+                  let newX = (pos.x >= 0 && pos.x < stageWidth - inputRef.current.textWidth) ?
+                    pos.x : pos.x < 0 ? 0 : stageWidth - inputRef.current.textWidth
+                  handleTextX(newX.toFixed(2))
+                  handleTextY(newY.toFixed(2))
                   return {
                     x: newX,
                     y: newY
                   }
                 }}
                 visible={inputText !== ''}
-                x={textX}
-                y={textY}
                 wrap="word"
                 width={stageWidth}
               />
@@ -211,11 +221,8 @@ const App = () => {
           </div>
         </div>
       </div>
-      
-      
     </div>
-    
-  );
-};
+  )
+}
 
-render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root'))
